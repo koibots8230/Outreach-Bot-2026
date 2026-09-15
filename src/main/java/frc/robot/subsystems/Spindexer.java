@@ -1,13 +1,20 @@
 package frc.robot.subsystems;
 
-import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.*;
 
 import com.revrobotics.PersistMode;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.epilogue.NotLogged;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,39 +22,60 @@ import frc.robot.Constants.SpindexerConstants;
 
 @Logged
 public class Spindexer extends SubsystemBase {
+    @NotLogged private final SparkMax motor;
+    @NotLogged private final SparkMaxConfig config;
 
-  private final SparkMax motor;
-  private final SparkMaxConfig config;
-  double setpoint;
-  double current;
-  double voltage;
-  double velocity;
+    @NotLogged private final RelativeEncoder encoder;
 
-  public Spindexer() {
-    motor = new SparkMax(SpindexerConstants.MOTOR_ID, MotorType.kBrushless);
-    config = new SparkMaxConfig();
-    config.inverted(false);
-    config.smartCurrentLimit((int) SpindexerConstants.CURRENT_LIMIT.in(Amps));
-    motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-  }
+    private AngularVelocity setpoint;
+    private AngularVelocity velocity;
 
-  @Override
-  public void periodic() {
-    current = motor.getOutputCurrent();
-    voltage = motor.getAppliedOutput() * motor.getBusVoltage();
-    velocity = motor.getEncoder().getVelocity();
-  }
+    private Current current;
+    private Voltage appliedVoltage;
 
-  public void simulationPeriodic() {
-    velocity = setpoint;
-  }
+    public Spindexer() {
+        motor = new SparkMax(SpindexerConstants.MOTOR_ID, MotorType.kBrushless);
 
-  private void setSpeed(double percent) {
-    motor.set(percent);
-    setpoint = percent;
-  }
+        config = new SparkMaxConfig();
 
-  public Command setSpeedCommand(double percent) {
-    return Commands.runOnce(() -> this.setSpeed(percent), this);
-  }
+        config.inverted(false);
+        config.smartCurrentLimit((int) SpindexerConstants.CURRENT_LIMIT.in(Amps));
+
+        motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+        encoder = motor.getEncoder();
+
+        setpoint = RPM.of(0);
+        velocity = RPM.of(0);
+
+        current = Amps.of(0);
+        appliedVoltage = Volts.of(0);
+    }
+
+    @Override
+    public void periodic() {
+        current = Amps.of(motor.getOutputCurrent());
+        velocity = RPM.of(encoder.getVelocity());
+        appliedVoltage = Volts.of(motor.getAppliedOutput() * motor.getBusVoltage());
+    }
+
+    // Here's how you can do sim
+    @Override
+    public void simulationPeriodic() {
+        velocity = setpoint;
+    }
+
+    private void setVelocity(AngularVelocity velocity) {
+        setpoint = velocity;
+    }
+
+    public Command intake() {
+        return Commands.sequence(
+            Commands.runOnce(() -> this.setVelocity(SpindexerConstants.INTAKE_VELOCITY), this),
+            Commands.runOnce(() -> this.setVelocity(RPM.of(0)), this));
+    }
+
+    public Command setVelocityCommand(AngularVelocity velocity) {
+        return Commands.runOnce(() -> this.setVelocity(velocity), this);
+    }
 }
