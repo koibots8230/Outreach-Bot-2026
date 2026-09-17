@@ -59,7 +59,6 @@ public class Spindexer extends SubsystemBase {
         appliedVoltage = Volts.of(motor.getAppliedOutput() * motor.getBusVoltage());
     }
 
-    // Here's how you can do sim
     @Override
     public void simulationPeriodic() {
         velocity = setpoint;
@@ -67,12 +66,6 @@ public class Spindexer extends SubsystemBase {
 
     private void setVelocity(AngularVelocity velocity) {
         setpoint = velocity;
-    }
-
-    public Command intake() {
-        return Commands.sequence(
-            Commands.runOnce(() -> this.setVelocity(SpindexerConstants.INTAKE_VELOCITY), this),
-            Commands.runOnce(() -> this.setVelocity(RPM.of(0)), this));
     }
 
     public Command setVelocityCommand(AngularVelocity velocity) {

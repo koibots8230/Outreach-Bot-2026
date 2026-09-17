@@ -27,6 +27,6 @@ public final class Constants {
     public static final AngularVelocity SHOOTING_VELOCITY = RPM.of(240);
     public static final Current CURRENT_LIMIT = Amps.of(60);
 
-    public static final int MOTOR_ID = 10;
+    public static final int MOTOR_ID = 21;
   }
 }
