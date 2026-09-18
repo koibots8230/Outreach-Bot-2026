@@ -30,7 +30,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     Trigger intakeButton = new Trigger(() -> controller.getLeftTriggerAxis() > 0.15);
-    intakeButton.onTrue(Spindexer.setVelocityCommand(SpindexerConstants.INTAKE_VELOCITY));
+    intakeButton.onTrue(spindexer.setVelocityCommand(SpindexerConstants.INTAKE_VELOCITY));
   }
 
   public Command getAutonomousCommand() {
