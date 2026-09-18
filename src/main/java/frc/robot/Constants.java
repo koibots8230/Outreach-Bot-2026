@@ -25,6 +25,7 @@ public final class Constants {
   public static class SpindexerConstants {
     public static final AngularVelocity INTAKE_VELOCITY = RPM.of(120);
     public static final AngularVelocity SHOOTING_VELOCITY = RPM.of(240);
+    public static final AngularVelocity REVERSE_VELOCITY = RPM.of(-120);
     public static final Current CURRENT_LIMIT = Amps.of(60);
 
     public static final int MOTOR_ID = 21;

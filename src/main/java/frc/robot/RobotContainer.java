@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.*;
 
+import static edu.wpi.first.units.Units.*;
+
 @Logged
 public class RobotContainer {
   @NotLogged private final XboxController controller;
@@ -31,6 +33,11 @@ public class RobotContainer {
   private void configureBindings() {
     Trigger intakeButton = new Trigger(() -> controller.getLeftTriggerAxis() > 0.15);
     intakeButton.onTrue(spindexer.setVelocityCommand(SpindexerConstants.INTAKE_VELOCITY));
+    intakeButton.onFalse(spindexer.setVelocityCommand(RPM.of(0)));
+
+    Trigger intakeReverse = new Trigger(() -> controller.getRightTriggerAxis() > 0.15);
+    intakeReverse.onTrue(spindexer.setVelocityCommand(SpindexerConstants.REVERSE_VELOCITY));
+    intakeReverse.onFalse(spindexer.setVelocityCommand(RPM.of(0)));
   }
 
   public Command getAutonomousCommand() {
