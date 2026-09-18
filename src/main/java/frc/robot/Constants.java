@@ -21,7 +21,7 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
-  
+
   public static class SpindexerConstants {
     public static final AngularVelocity INTAKE_VELOCITY = RPM.of(120);
     public static final AngularVelocity SHOOTING_VELOCITY = RPM.of(240);
