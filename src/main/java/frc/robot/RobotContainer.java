@@ -12,7 +12,6 @@ import frc.robot.subsystems.*;
 
 @Logged
 public class RobotContainer {
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Swerve swerve;
   @NotLogged private boolean isBlue;
   private Alliance alliance;
