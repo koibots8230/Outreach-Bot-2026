@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.*;
-import frc.robot.commands.intakeCommands;
+import frc.robot.commands.IntakeCommands;
 import frc.robot.subsystems.*;
 
 @Logged
@@ -32,7 +32,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     Trigger intakeButton = new Trigger(() -> controller.getLeftTriggerAxis() > 0.15);
-    intakeButton.onTrue(intakeCommands.startIntake(spindexer));
+    intakeButton.onTrue(IntakeCommands.startIntake(spindexer));
     intakeButton.onFalse(spindexer.setVelocityCommand(RPM.of(0)));
 
     Trigger intakeReverse = new Trigger(() -> controller.getRightTriggerAxis() > 0.15);
