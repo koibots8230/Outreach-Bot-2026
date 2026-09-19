@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.*;
+
+import edu.wpi.first.units.measure.Time;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -15,5 +19,14 @@ package frc.robot;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+  }
+  public static class HoodPivotConstants {
+
+
+    public static final int MOTOR_ID = 32;
+  }
+
+  public final class RobotConstants {
+    public static final Time CLOCK_SPEED = Milliseconds.of(20);
   }
 }
