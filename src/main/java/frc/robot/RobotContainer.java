@@ -33,11 +33,11 @@ public class RobotContainer {
   private void configureBindings() {
     Trigger intakeButton = new Trigger(() -> controller.getLeftTriggerAxis() > 0.15);
     intakeButton.onTrue(IntakeCommands.startIntake(spindexer));
-    intakeButton.onFalse(spindexer.setVelocityCommand(RPM.of(0)));
+    intakeButton.onFalse(IntakeCommands.stopIntake(spindexer));
 
     Trigger intakeReverse = new Trigger(() -> controller.getRightTriggerAxis() > 0.15);
-    intakeReverse.onTrue(spindexer.setVelocityCommand(SpindexerConstants.REVERSE_VELOCITY));
-    intakeReverse.onFalse(spindexer.setVelocityCommand(RPM.of(0)));
+    intakeReverse.onTrue(IntakeCommands.reverseIntake(spindexer));
+    intakeReverse.onFalse(IntakeCommands.stopIntake(spindexer));
   }
 
   public Command getAutonomousCommand() {
