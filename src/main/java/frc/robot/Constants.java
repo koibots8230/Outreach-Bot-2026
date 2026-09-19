@@ -4,6 +4,11 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.*;
+
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -15,5 +20,14 @@ package frc.robot;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+  }
+
+  public static class SpindexerConstants {
+    public static final AngularVelocity INTAKE_VELOCITY = RPM.of(120);
+    public static final AngularVelocity SHOOTING_VELOCITY = RPM.of(240);
+    public static final AngularVelocity REVERSE_VELOCITY = RPM.of(-120);
+    public static final Current CURRENT_LIMIT = Amps.of(60);
+
+    public static final int MOTOR_ID = 21;
   }
 }
