@@ -6,6 +6,9 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import edu.wpi.first.units.measure.AngularAcceleration;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Time;
 
 /**
@@ -21,7 +24,11 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
   public static class HoodPivotConstants {
+    public static final double CONVERSION_FACTOR = Math.PI * 2;
 
+    public static final AngularVelocity MAX_VELOCITY = DegreesPerSecond.of(360);
+    public static final AngularAcceleration MAX_ACCELERATION = DegreesPerSecondPerSecond.of(180);
+    public static final Current CURRENT_LIMIT = Amps.of(60);
 
     public static final int MOTOR_ID = 32;
   }

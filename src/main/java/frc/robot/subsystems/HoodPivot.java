@@ -6,20 +6,49 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.HoodPivotConstants;
 import frc.robot.Constants.RobotConstants;
 
+import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.RadiansPerSecondPerSecond;
 
 
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.ResetMode;
+import com.revrobotics.PersistMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 
+@Logged
 public class HoodPivot extends SubsystemBase {
     private final SparkMax motor;
     private final SparkMaxConfig config;
+    private final TrapezoidProfile profile;
+    private TrapezoidProfile.State goal;
+    private TrapezoidProfile.State motorSetpoint;
+
 
     public HoodPivot () { 
         motor = new SparkMax(HoodPivotConstants.MOTOR_ID, MotorType.kBrushless);
+
         config = new SparkMaxConfig();
+        config.idleMode(IdleMode.kBrake);
+        config.inverted(false);
+        config.smartCurrentLimit((int) HoodPivotConstants.CURRENT_LIMIT.in(Amps));
+        
+        config.absoluteEncoder.positionConversionFactor(HoodPivotConstants.CONVERSION_FACTOR);
+        config.absoluteEncoder.inverted(false);
+        
+        motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        
+        profile = new TrapezoidProfile(
+            new Constraints(
+                HoodPivotConstants.MAX_VELOCITY.in(RadiansPerSecond),
+                HoodPivotConstants.MAX_ACCELERATION.in(RadiansPerSecondPerSecond)));
+        goal = new State(motor.getAbsoluteEncoder().getPosition(), 0);
+        motorSetpoint = new State(motor.getAbsoluteEncoder().getPosition(),0);
     }
 
 }
