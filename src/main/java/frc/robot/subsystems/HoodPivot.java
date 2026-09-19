@@ -12,13 +12,18 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecondPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 
+import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.spark.FeedbackSensor;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.ResetMode;
 import com.revrobotics.PersistMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
@@ -26,11 +31,14 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 
 @Logged
 public class HoodPivot extends SubsystemBase {
+    
     private final SparkMax motor;
     private final SparkMaxConfig config;
+    private SparkClosedLoopController pid;
     private final TrapezoidProfile profile;
     private TrapezoidProfile.State goal;
     private TrapezoidProfile.State motorSetpoint;
+    private final ArmFeedforward feedforward;
     double position;
     double setpoint;
     double current;
@@ -45,6 +53,9 @@ public class HoodPivot extends SubsystemBase {
         config.inverted(false);
         config.smartCurrentLimit((int) HoodPivotConstants.CURRENT_LIMIT.in(Amps));
         
+        config.closedLoop.p(HoodPivotConstants.PID.kp);
+        config.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
+
         config.absoluteEncoder.positionConversionFactor(HoodPivotConstants.CONVERSION_FACTOR);
         config.absoluteEncoder.inverted(false);
         
@@ -54,6 +65,10 @@ public class HoodPivot extends SubsystemBase {
             new Constraints(
                 HoodPivotConstants.MAX_VELOCITY.in(RadiansPerSecond),
                 HoodPivotConstants.MAX_ACCELERATION.in(RadiansPerSecondPerSecond)));
+        feedforward = new ArmFeedforward(
+         HoodPivotConstants.FEEDFORWARD.ks,
+         HoodPivotConstants.FEEDFORWARD.kg,
+         HoodPivotConstants.FEEDFORWARD.kv);   
         goal = new State(motor.getAbsoluteEncoder().getPosition(), 0);
         motorSetpoint = new State(motor.getAbsoluteEncoder().getPosition(),0);
     }
@@ -61,12 +76,17 @@ public class HoodPivot extends SubsystemBase {
     @Override
     public void periodic() {
         motorSetpoint = profile.calculate(RobotConstants.CLOCK_SPEED.in(Seconds), motorSetpoint, goal);
+        pid.setSetpoint(
+            motorSetpoint.position,
+            ControlType.kPosition,
+            ClosedLoopSlot.kSlot0,
+            feedforward.calculate(motorSetpoint.position, motorSetpoint.velocity));
         position = motor.getAbsoluteEncoder().getPosition();
         current = motor.getOutputCurrent();
         voltage = motor.getAppliedOutput() * motor.getBusVoltage();
     }
 
-        public boolean atSetpoint() {
+    public boolean atSetpoint() {
         return (position >= (setpoint - HoodPivotConstants.TOLERANCE.getRadians())
             && position <= (setpoint + HoodPivotConstants.TOLERANCE.getRadians()));
     }
