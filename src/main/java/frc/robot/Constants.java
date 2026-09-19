@@ -6,6 +6,7 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
@@ -24,6 +25,7 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
   public static class HoodPivotConstants {
+    public static final Rotation2d TOLERANCE = Rotation2d.fromRadians(0.15);
     public static final double CONVERSION_FACTOR = Math.PI * 2;
 
     public static final AngularVelocity MAX_VELOCITY = DegreesPerSecond.of(360);

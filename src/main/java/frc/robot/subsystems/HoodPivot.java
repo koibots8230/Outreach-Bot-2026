@@ -9,7 +9,7 @@ import frc.robot.Constants.RobotConstants;
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecondPerSecond;
-
+import static edu.wpi.first.units.Units.Seconds;
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.ResetMode;
@@ -17,6 +17,8 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
@@ -28,6 +30,10 @@ public class HoodPivot extends SubsystemBase {
     private final TrapezoidProfile profile;
     private TrapezoidProfile.State goal;
     private TrapezoidProfile.State motorSetpoint;
+    double position;
+    double setpoint;
+    double current;
+    double voltage;
 
 
     public HoodPivot () { 
@@ -49,6 +55,29 @@ public class HoodPivot extends SubsystemBase {
                 HoodPivotConstants.MAX_ACCELERATION.in(RadiansPerSecondPerSecond)));
         goal = new State(motor.getAbsoluteEncoder().getPosition(), 0);
         motorSetpoint = new State(motor.getAbsoluteEncoder().getPosition(),0);
+    }
+
+    @Override
+    public void periodic() {
+        motorSetpoint = profile.calculate(RobotConstants.CLOCK_SPEED.in(Seconds), motorSetpoint, goal);
+        position = motor.getAbsoluteEncoder().getPosition();
+        current = motor.getOutputCurrent();
+        voltage = motor.getAppliedOutput() * motor.getBusVoltage();
+    }
+
+        public boolean atSetpoint() {
+        return (position >= (setpoint - HoodPivotConstants.TOLERANCE.getRadians())
+            && position <= (setpoint + HoodPivotConstants.TOLERANCE.getRadians()));
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        position = motorSetpoint.position;
+    }
+
+    private void setPosition(Rotation2d angle) {
+        goal = new State(angle.getRadians(), 0);
+        setpoint = angle.getRadians();
     }
 
 }
