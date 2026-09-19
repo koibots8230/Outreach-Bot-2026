@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.HoodPivotConstants;
 import frc.robot.Constants.RobotConstants;
@@ -78,6 +79,10 @@ public class HoodPivot extends SubsystemBase {
     private void setPosition(Rotation2d angle) {
         goal = new State(angle.getRadians(), 0);
         setpoint = angle.getRadians();
+    }
+
+    public Command setPositionCommand(Rotation2d angle) {
+        return Commands.runOnce(() -> this.setPosition(angle), this);
     }
 
 }
