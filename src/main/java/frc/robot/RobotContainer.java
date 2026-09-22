@@ -14,7 +14,7 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
   private final Swerve swerve;
   @NotLogged private boolean isBlue;
-  private Alliance alliance;
+  @NotLogged private Alliance alliance;
   private final CommandXboxController xboxController;
 
   public RobotContainer() {

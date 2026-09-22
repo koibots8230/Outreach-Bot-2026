@@ -58,11 +58,11 @@ public final class Constants {
 
     public static final PIDGains DRIVE_PID = new PIDGains.Builder().kp(0).ki(0).kd(0).build();
     public static final FeedforwardGains DRIVE_FEEDFORWARD = 
-      new FeedforwardGains.Builder().ks(0).kv(0).build();
+      new FeedforwardGains.Builder().ks(0).kv(0.05).build();
 
     public static final PIDGains TURN_PID = new PIDGains.Builder().kp(0).ki(0).kd(0).build();
     public static final FeedforwardGains TURN_FEEDFORWARD =
-      new FeedforwardGains.Builder().ks(0).kv(0).build();
+      new FeedforwardGains.Builder().ks(0).kv(0.05).build();
 
     public static final Current DRIVE_CURRENT_LIMIT = Current.ofBaseUnits(80, Amps);
     public static final Current TURN_CURRENT_LIMIT = Current.ofBaseUnits(60, Amps);
