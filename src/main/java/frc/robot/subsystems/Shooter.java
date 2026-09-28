@@ -53,5 +53,12 @@ public class Shooter extends SubsystemBase {
     setpoint = RPM.of(0);
   }
 
+  @Override
+  public void periodic() {
+    voltage = Volts.of(motor.getAppliedOutput() * motor.getBusVoltage());
+    velocity = RPM.of(motor.getEncoder().getVelocity());
+    current = Amps.of(motor.getOutputCurrent());
+  }
+
   
 }
