@@ -90,7 +90,6 @@ public class Swerve extends SubsystemBase {
     private void driveFieldRelative (LinearVelocity x, LinearVelocity y, AngularVelocity omega) {
         simHeading = new Rotation2d(-omega.baseUnitMagnitude()).div(50).plus(simHeading);
         swerveDriveEstimatedPose.update(simHeading, getModulePositions());
-        estimatedPose = swerveDriveEstimatedPose.getEstimatedPosition();
         chassisSpeeds =
         edu.wpi.first.math.kinematics.ChassisSpeeds.fromFieldRelativeSpeeds(
             x.in(MetersPerSecond) * SwerveConstants.MAX_LINEAR_VELOCITY.baseUnitMagnitude(),
@@ -119,6 +118,7 @@ public class Swerve extends SubsystemBase {
         modules.backRight.periodic();
 
         gyroHeading = gyro.getRotation2d();
+        estimatedPose = swerveDriveEstimatedPose.getEstimatedPosition();
     }
 
     public Command driveCommand (DoubleSupplier x, DoubleSupplier y, DoubleSupplier omega) {
