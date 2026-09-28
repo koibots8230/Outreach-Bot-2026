@@ -60,5 +60,10 @@ public class Shooter extends SubsystemBase {
     current = Amps.of(motor.getOutputCurrent());
   }
 
+  @Override
+  public void simulationPeriodic() {
+    velocity = setpoint;
+  }
+
   
 }
