@@ -4,19 +4,22 @@ import static edu.wpi.first.units.Units.*;
 
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.*;
-import frc.robot.commands.IntakeCommands;
+import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 @Logged
 public class RobotContainer {
   @NotLogged private final XboxController controller;
+  @NotLogged private final GenericHID operator;
   private final Spindexer spindexer;
+  private final TowerIndexer towerIndexer;
 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
@@ -25,7 +28,9 @@ public class RobotContainer {
 
   public RobotContainer() {
     controller = new XboxController(0);
+    operator = new GenericHID(1);
     spindexer = new Spindexer();
+    towerIndexer = new TowerIndexer();
 
     configureBindings();
   }
@@ -38,6 +43,10 @@ public class RobotContainer {
     Trigger intakeReverse = new Trigger(() -> controller.getRightTriggerAxis() > 0.15);
     intakeReverse.onTrue(IntakeCommands.reverseIntake(spindexer));
     intakeReverse.onFalse(IntakeCommands.stopIntake(spindexer));
+
+    Trigger shootTrigger = new Trigger(() -> operator.getRawButton(2));
+    shootTrigger.onTrue(ShootingCommands.shoot(spindexer, towerIndexer));
+    shootTrigger.onFalse(ShootingCommands.stopShoot(spindexer, towerIndexer));
   }
 
   public Command getAutonomousCommand() {
