@@ -70,5 +70,8 @@ public class Shooter extends SubsystemBase {
     setpoint = velocity;
   }
 
-  
+  public Command setVelocityCommand(AngularVelocity velocity) {
+        return Commands.runOnce(() -> setVelocity(velocity), this);
+  }
+
 }
