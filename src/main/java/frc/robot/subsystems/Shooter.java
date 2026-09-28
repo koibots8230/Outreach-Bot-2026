@@ -38,6 +38,7 @@ public class Shooter extends SubsystemBase {
 
     motor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     motorController = motor.getClosedLoopController();
-  }
+  }import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 
 }
