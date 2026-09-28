@@ -65,5 +65,10 @@ public class Shooter extends SubsystemBase {
     velocity = setpoint;
   }
 
+  private void setVelocity(AngularVelocity velocity) {
+    motorController.setSetpoint(velocity.in(RPM), ControlType.kVelocity);
+    setpoint = velocity;
+  }
+
   
 }
