@@ -26,15 +26,16 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
   public static class HoodPivotConstants {
-    public static final Rotation2d UP_POSITION = Rotation2d.fromDegrees(240); //might change these angles
-    public static final Rotation2d MID_POSITION = Rotation2d.fromDegrees(120); 
-    public static final Rotation2d DOWN_POSITION = Rotation2d.fromDegrees(0.01);
+    public static final Rotation2d UP_POSITION = Rotation2d.fromDegrees(70); // might change these angles
+    public static final Rotation2d MID_POSITION = Rotation2d.fromDegrees(45);
+    public static final Rotation2d DOWN_POSITION = Rotation2d.fromDegrees(0.1);
     public static final Rotation2d TOLERANCE = Rotation2d.fromRadians(0.15);
-    public static final PIDGains PID = new PIDGains.Builder().kp(0.1/* placeholder */).build(); 
+    public static final PIDGains PID = new PIDGains.Builder().kp(0.1 /* placeholder */).build();
     public static final FeedforwardGains FEEDFORWARD =
         new FeedforwardGains.Builder().kv(0).kg(0).build();
-    public static final double CONVERSION_FACTOR = Math.PI * 2; //might change (or not, idk)
+    public static final double CONVERSION_FACTOR = Math.PI * 2; // might change (or not, idk)
 
     public static final AngularVelocity MAX_VELOCITY = DegreesPerSecond.of(360);
     public static final AngularAcceleration MAX_ACCELERATION = DegreesPerSecondPerSecond.of(180);
