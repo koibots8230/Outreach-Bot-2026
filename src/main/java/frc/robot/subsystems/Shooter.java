@@ -10,9 +10,9 @@ import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import edu.wpi.first.epilogue.Logged;
-import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
@@ -24,21 +24,34 @@ import frc.robot.Constants.ShooterConstants;
 @Logged
 public class Shooter extends SubsystemBase {
 
-  @NotLogged private final SparkFlex motor;
-  @NotLogged private final SparkFlexConfig motorConfig;
-  @NotLogged private final SparkClosedLoopController motorController;
+  private final SparkFlex motor;
+  private final SparkFlexConfig motorConfig;
+  private final SparkClosedLoopController motorController;
+  private Voltage voltage;
+  private AngularVelocity velocity;
+  private Current current;
+  private AngularVelocity setpoint;
 
   public Shooter() {
     motor = new SparkFlex(ShooterConstants.MOTOR_PORT, MotorType.kBrushless);
     motorConfig = new SparkFlexConfig();
+    motorConfig.closedLoop.p(ShooterConstants.PID.kp);
+    motorConfig.closedLoop.feedForward.kV(ShooterConstants.FEEDFORWARD.kv);
+    motorConfig.idleMode(IdleMode.kCoast);
 
     motorConfig.smartCurrentLimit((int) ShooterConstants.CURRENT_LIMIT.in(Amps));
-
     motorConfig.inverted(true);
 
-    motor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    motor.configure(
+        motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    
     motorController = motor.getClosedLoopController();
-  }import com.revrobotics.PersistMode;
-import com.revrobotics.ResetMode;
 
+    voltage = Volts.of(0);
+    velocity = RPM.of(0);
+    current = Amps.of(0);
+    setpoint = RPM.of(0);
+  }
+
+  
 }
