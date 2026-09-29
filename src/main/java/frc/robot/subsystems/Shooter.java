@@ -4,9 +4,9 @@ import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Volts;
 
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -42,9 +42,8 @@ public class Shooter extends SubsystemBase {
     motorConfig.smartCurrentLimit((int) ShooterConstants.CURRENT_LIMIT.in(Amps));
     motorConfig.inverted(true);
 
-    motor.configure(
-        motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    
+    motor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
     motorController = motor.getClosedLoopController();
 
     voltage = Volts.of(0);
@@ -71,7 +70,6 @@ public class Shooter extends SubsystemBase {
   }
 
   public Command setVelocityCommand(AngularVelocity velocity) {
-        return Commands.runOnce(() -> setVelocity(velocity), this);
+    return Commands.runOnce(() -> setVelocity(velocity), this);
   }
-
 }

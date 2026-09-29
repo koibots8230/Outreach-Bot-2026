@@ -6,24 +6,16 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.LinearVelocity;
-import edu.wpi.first.units.measure.Time;
 import frc.lib.util.FeedforwardGains;
 import frc.lib.util.PIDGains;
-
-
 
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
   public class ShooterConstants {
     public static final AngularVelocity HIGH_GOAL_SPEED = RPM.of(2100);
     public static final AngularVelocity LOW_GOAL_SPEED = RPM.of(645);
