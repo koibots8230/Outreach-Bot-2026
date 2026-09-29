@@ -34,12 +34,6 @@ public class RobotContainer {
     pivotDown.onTrue(hoodPivot.setPositionCommand(HoodPivotConstants.DOWN_POSITION));
   }
 
-  public void setupLiveTuning() {
-    hoodPivot.setupLiveTuning();
-  }
-  public void updateLiveTuning(){
-      hoodPivot.updateLiveTuning();
-  }
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
   }

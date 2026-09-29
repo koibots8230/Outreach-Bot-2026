@@ -28,7 +28,8 @@ public final class Constants {
   }
 
   public static class HoodPivotConstants {
-    public static final Rotation2d UP_POSITION = Rotation2d.fromDegrees(70); // might change these angles
+    public static final Rotation2d UP_POSITION =
+        Rotation2d.fromDegrees(70); // might change these angles
     public static final Rotation2d MID_POSITION = Rotation2d.fromDegrees(45);
     public static final Rotation2d DOWN_POSITION = Rotation2d.fromDegrees(0.1);
     public static final Rotation2d TOLERANCE = Rotation2d.fromRadians(0.15);

@@ -98,29 +98,6 @@ public class HoodPivot extends SubsystemBase {
     position = motorSetpoint.position;
   }
 
-
-  public void setupLiveTuning() {
-    SmartDashboard.putNumber("Intake/pidkp", HoodPivotConstants.PID.kp);
-    SmartDashboard.putNumber("Intake/feedforwardks", HoodPivotConstants.FEEDFORWARD.ks);
-    SmartDashboard.putNumber("Intake/feedforwardkg", HoodPivotConstants.FEEDFORWARD.kg);
-    SmartDashboard.putNumber("Intake/feedforwardkv", HoodPivotConstants.FEEDFORWARD.kv);
-  }
-
-  public void updateLiveTuning() {
-    config.closedLoop.p(SmartDashboard.getNumber("Intake/pidkp", HoodPivotConstants.PID.kp));
-
-    motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
-    pid = motor.getClosedLoopController();
-
-    feedforward.setKs(
-        SmartDashboard.getNumber("Intake/feedforwardks", HoodPivotConstants.FEEDFORWARD.ks));
-    feedforward.setKg(
-        SmartDashboard.getNumber("Intake/feedforwardkg", HoodPivotConstants.FEEDFORWARD.kg));
-    feedforward.setKv(
-        SmartDashboard.getNumber("Intake/feedforwardkv", HoodPivotConstants.FEEDFORWARD.kv));
-  }
-
   private void setPosition(Rotation2d angle) {
     goal = new State(angle.getRadians(), 0);
     setpoint = angle.getRadians();
