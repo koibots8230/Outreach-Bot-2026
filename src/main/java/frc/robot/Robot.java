@@ -57,13 +57,10 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     CommandScheduler.getInstance().cancelAll();
-    m_robotContainer.setupLiveTuning();
   }
 
   @Override
-  public void testPeriodic() {
-    m_robotContainer.updateLiveTuning();
-  }
+  public void testPeriodic() {}
 
   @Override
   public void simulationInit() {}
