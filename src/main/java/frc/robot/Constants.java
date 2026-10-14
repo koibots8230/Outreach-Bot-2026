@@ -30,4 +30,11 @@ public final class Constants {
 
     public static final int MOTOR_ID = 21;
   }
+
+  public static class TowerIndexerConstants {
+    public static final AngularVelocity VELOCITY = RPM.of(240);
+    public static final Current CURRENT_LIMIT = Amps.of(60);
+
+    public static final int MOTOR_ID = 22;
+  }
 }
