@@ -91,7 +91,7 @@ public class Swerve extends SubsystemBase {
         simHeading = new Rotation2d(-omega.baseUnitMagnitude()).div(50).plus(simHeading);
         swerveDriveEstimatedPose.update(simHeading, getModulePositions());
         chassisSpeeds =
-        edu.wpi.first.math.kinematics.ChassisSpeeds.fromFieldRelativeSpeeds(
+        ChassisSpeeds.fromFieldRelativeSpeeds(
             x.in(MetersPerSecond) * SwerveConstants.MAX_LINEAR_VELOCITY.baseUnitMagnitude(),
             y.in(MetersPerSecond) * SwerveConstants.MAX_LINEAR_VELOCITY.baseUnitMagnitude(),
             omega.in(RotationsPerSecond) * SwerveConstants.MAX_ANGULAR_VELOCITY.baseUnitMagnitude(),

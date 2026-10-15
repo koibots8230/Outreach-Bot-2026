@@ -21,6 +21,7 @@ public class RobotContainer {
     swerve = new Swerve();
     xboxController = new CommandXboxController(RobotConstants.CONTROLLER_PORT);
     configureBindings();
+    setIsBlue();
     defaultCommands();
   }
 
