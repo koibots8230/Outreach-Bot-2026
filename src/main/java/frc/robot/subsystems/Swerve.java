@@ -121,6 +121,11 @@ public class Swerve extends SubsystemBase {
         estimatedPose = swerveDriveEstimatedPose.getEstimatedPosition();
     }
 
+    @Override
+    public void simulationPeriodic(){
+        estimatedPose = swerveDriveEstimatedPose.getEstimatedPosition();
+    }
+
     public Command driveCommand (DoubleSupplier x, DoubleSupplier y, DoubleSupplier omega) {
         return Commands.run(
             () ->
