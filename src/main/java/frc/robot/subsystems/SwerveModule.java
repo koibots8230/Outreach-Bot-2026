@@ -41,7 +41,7 @@ import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.SwerveConstants;
 
 @Logged
-public class SwerveModule extends SubsystemBase {
+public class SwerveModule {
     private Angle turnSetpointAngle;
     private LinearVelocity driveSetpointVelocity;
     double position;
@@ -163,7 +163,6 @@ public class SwerveModule extends SubsystemBase {
         turnClosedLoopController.setSetpoint(state.angle.getRadians(), ControlType.kPosition);
     }
 
-    @Override
     public void periodic() {
         drivePosition = driveEncoder.getPosition();
         driveVelocity = driveEncoder.getVelocity();
@@ -187,7 +186,7 @@ public class SwerveModule extends SubsystemBase {
     }
 
     public SwerveModuleState getState() {
-        return new SwerveModuleState(driveVelocity, angle);
+        return new SwerveModuleState(driveVelocity, new Rotation2d(turnPosition));
     }
 
     public SwerveModulePosition getModulePosition() {

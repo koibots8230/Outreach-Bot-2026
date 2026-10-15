@@ -4,6 +4,7 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.Seconds;
 
 import java.util.function.DoubleSupplier;
 
@@ -14,6 +15,7 @@ import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -22,12 +24,14 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.SwerveConstants;
 
 @Logged
-public class Swerve {
+public class Swerve extends SubsystemBase {
 
     private Pose2d estimatedPose;
+    private Pose2d simPose;
     private Pigeon2 gyro;
     @NotLogged private boolean isBlue;
     private Rotation2d simHeading;
@@ -45,6 +49,7 @@ public class Swerve {
         gyroHeading = new Rotation2d();
         chassisSpeeds = new ChassisSpeeds();
         modules = new Modules();
+        simPose = new Pose2d();
 
         swerveModuleStates = new SwerveModuleState[4];
         realModuleStates = new SwerveModuleState[4];
@@ -111,6 +116,7 @@ public class Swerve {
         realModuleStates[3] = modules.backRight.getState();
     }
 
+    @Override
     public void periodic () {
         modules.frontLeft.periodic();
         modules.frontRight.periodic();
@@ -121,8 +127,15 @@ public class Swerve {
         estimatedPose = swerveDriveEstimatedPose.getEstimatedPosition();
     }
 
+    @Override
     public void simulationPeriodic(){
-        estimatedPose = swerveDriveEstimatedPose.getEstimatedPosition();
+        double dt = RobotConstants.CLOCK_SPEED.in(Seconds);
+        simPose = simPose.exp(new Twist2d(
+            chassisSpeeds.vxMetersPerSecond * dt,
+            chassisSpeeds.vyMetersPerSecond * dt,
+            chassisSpeeds.omegaRadiansPerSecond * dt
+        ));
+        estimatedPose = simPose;
     }
 
     public Command driveCommand (DoubleSupplier x, DoubleSupplier y, DoubleSupplier omega) {
