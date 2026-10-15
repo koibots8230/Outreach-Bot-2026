@@ -30,8 +30,8 @@ public class RobotContainer {
   private void defaultCommands() {
     swerve.setDefaultCommand(
       swerve.driveCommand(
-        xboxController::getLeftX,
         xboxController::getLeftY,
+        xboxController::getLeftX,
         xboxController::getRightX)
     );
   }

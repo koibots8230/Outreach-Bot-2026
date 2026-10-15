@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
@@ -24,7 +25,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveConstants;
 
 @Logged
-public class Swerve extends SubsystemBase {
+public class Swerve {
 
     private Pose2d estimatedPose;
     private Pigeon2 gyro;
@@ -94,7 +95,7 @@ public class Swerve extends SubsystemBase {
         ChassisSpeeds.fromFieldRelativeSpeeds(
             x.in(MetersPerSecond) * SwerveConstants.MAX_LINEAR_VELOCITY.baseUnitMagnitude(),
             y.in(MetersPerSecond) * SwerveConstants.MAX_LINEAR_VELOCITY.baseUnitMagnitude(),
-            omega.in(RotationsPerSecond) * SwerveConstants.MAX_ANGULAR_VELOCITY.baseUnitMagnitude(),
+            omega.in(RadiansPerSecond) * SwerveConstants.MAX_ANGULAR_VELOCITY.baseUnitMagnitude(),
             simHeading);
 
         swerveModuleStates = SwerveConstants.KINEMATICS.toSwerveModuleStates(chassisSpeeds);
@@ -110,7 +111,6 @@ public class Swerve extends SubsystemBase {
         realModuleStates[3] = modules.backRight.getState();
     }
 
-    @Override
     public void periodic () {
         modules.frontLeft.periodic();
         modules.frontRight.periodic();
@@ -121,7 +121,6 @@ public class Swerve extends SubsystemBase {
         estimatedPose = swerveDriveEstimatedPose.getEstimatedPosition();
     }
 
-    @Override
     public void simulationPeriodic(){
         estimatedPose = swerveDriveEstimatedPose.getEstimatedPosition();
     }

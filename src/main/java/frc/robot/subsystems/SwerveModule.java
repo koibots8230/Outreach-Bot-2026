@@ -117,7 +117,7 @@ public class SwerveModule extends SubsystemBase {
         turnConfig
             .closedLoop
             .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-            .pid(SwerveConstants.DRIVE_PID.kp, SwerveConstants.DRIVE_PID.ki, SwerveConstants.DRIVE_PID.kd)
+            .pid(SwerveConstants.TURN_PID.kp, SwerveConstants.TURN_PID.ki, SwerveConstants.TURN_PID.kd)
             .positionWrappingEnabled(true)
             .positionWrappingInputRange(-Math.PI, Math.PI);
         turnConfig.smartCurrentLimit((int) SwerveConstants.TURN_CURRENT_LIMIT.in(Amps));
@@ -187,7 +187,7 @@ public class SwerveModule extends SubsystemBase {
     }
 
     public SwerveModuleState getState() {
-        return new SwerveModuleState(driveSetpointVelocity, new Rotation2d(turnSetpointAngle));
+        return new SwerveModuleState(driveVelocity, angle);
     }
 
     public SwerveModulePosition getModulePosition() {
