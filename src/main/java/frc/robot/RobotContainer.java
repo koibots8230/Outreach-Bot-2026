@@ -29,23 +29,24 @@ public class RobotContainer {
 
   private void defaultCommands() {
     swerve.setDefaultCommand(
-      swerve.driveCommand(
-        () -> xboxController.getLeftY(),
-        () -> xboxController.getLeftX(),
-        () -> xboxController.getRightX())
-    );
+        swerve.driveCommand(
+            () -> xboxController.getLeftY(),
+            () -> xboxController.getLeftX(),
+            () -> xboxController.getRightX()));
   }
-  
-  public void setIsBlue(){
+
+  public void setIsBlue() {
     alliance = DriverStation.getAlliance().orElse(null);
-    boolean isBlue = switch (alliance) {
-      case Blue -> true;
-      case Red -> false;
-      default -> {
-        System.out.println("No alliance flag was returned by Driver Station. Driver Station has not assigned an alliance yet or is not connected.");
-        yield false;
-      }
-    };
+    boolean isBlue =
+        switch (alliance) {
+          case Blue -> true;
+          case Red -> false;
+          default -> {
+            System.out.println(
+                "No alliance flag was returned by Driver Station. Driver Station has not assigned an alliance yet or is not connected.");
+            yield false;
+          }
+        };
     swerve.setIsBlue(isBlue);
   }
 
