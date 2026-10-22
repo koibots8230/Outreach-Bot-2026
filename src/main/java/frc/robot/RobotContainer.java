@@ -29,30 +29,24 @@ public class RobotContainer {
   private final Spindexer spindexer;
   private final TowerIndexer towerIndexer;
 
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
-
   public RobotContainer() {
-    controller = new XboxController(0);
+    xboxController = new XboxController(RobotConstants.CONTROLLER_PORT);
     operator = new GenericHID(1);
     spindexer = new Spindexer();
     towerIndexer = new TowerIndexer();
 
-    swerve = new Swerve();
-    xboxController = new CommandXboxController(RobotConstants.CONTROLLER_PORT);
+    swerve = new Swerve();;
     configureBindings();
     setIsBlue();
     defaultCommands();
   }
 
   private void configureBindings() {
-    Trigger intakeButton = new Trigger(() -> controller.getLeftTriggerAxis() > 0.15);
+    Trigger intakeButton = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0.15);
     intakeButton.onTrue(IntakeCommands.startIntake(spindexer));
     intakeButton.onFalse(IntakeCommands.stopIntake(spindexer));
 
-    Trigger intakeReverse = new Trigger(() -> controller.getRightTriggerAxis() > 0.15);
+    Trigger intakeReverse = new Trigger(() -> xboxController.getRightTriggerAxis() > 0.15);
     intakeReverse.onTrue(IntakeCommands.reverseIntake(spindexer));
     intakeReverse.onFalse(IntakeCommands.stopIntake(spindexer));
 
