@@ -155,6 +155,7 @@ public class SwerveModule {
     driveSetpointVelocity = MetersPerSecond.of(state.speedMetersPerSecond);
     turnSetpointAngle = Radians.of(state.angle.getRadians());
     position = (driveSetpointVelocity.baseUnitMagnitude());
+    state.optimize(angle);
     driveClosedLoopController.setSetpoint(
         state.speedMetersPerSecond, SparkBase.ControlType.kVelocity);
     turnClosedLoopController.setSetpoint(state.angle.getRadians(), ControlType.kPosition);

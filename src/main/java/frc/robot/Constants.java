@@ -20,6 +20,8 @@ import edu.wpi.first.units.measure.Time;
 import frc.lib.util.FeedforwardGains;
 import frc.lib.util.PIDGains;
 
+import static edu.wpi.first.units.Units.*;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -94,5 +96,37 @@ public final class Constants {
     public static final int BACK_RIGHT_TURN_ID = 8;
 
     public static final int GYRO_ID = 9;
+  }
+
+  public static class SpindexerConstants {
+    public static final AngularVelocity INTAKE_VELOCITY = RPM.of(120);
+    public static final AngularVelocity SHOOTING_VELOCITY = RPM.of(240);
+    public static final AngularVelocity REVERSE_VELOCITY = RPM.of(-120);
+    public static final Current CURRENT_LIMIT = Amps.of(60);
+
+    public static final int MOTOR_ID = 21;
+  }
+
+  public static class TowerIndexerConstants {
+    public static final AngularVelocity VELOCITY = RPM.of(240);
+    public static final Current CURRENT_LIMIT = Amps.of(60);
+
+    public static final int MOTOR_ID = 22;
+  }
+
+  public static class SpindexerConstants {
+    public static final AngularVelocity INTAKE_VELOCITY = RPM.of(120);
+    public static final AngularVelocity SHOOTING_VELOCITY = RPM.of(240);
+    public static final AngularVelocity REVERSE_VELOCITY = RPM.of(-120);
+    public static final Current CURRENT_LIMIT = Amps.of(60);
+
+    public static final int MOTOR_ID = 21;
+  }
+
+  public static class TowerIndexerConstants {
+    public static final AngularVelocity VELOCITY = RPM.of(240);
+    public static final Current CURRENT_LIMIT = Amps.of(60);
+
+    public static final int MOTOR_ID = 22;
   }
 }
