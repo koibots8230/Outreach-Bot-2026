@@ -36,18 +36,7 @@ public class RobotContainer {
   }
 
   public void setIsBlue() {
-    alliance = DriverStation.getAlliance().orElse(null);
-    boolean isBlue =
-        switch (alliance) {
-          case Blue -> true;
-          case Red -> false;
-          default -> {
-            System.out.println(
-                "No alliance flag was returned by Driver Station. Driver Station has not assigned an alliance yet or is not connected.");
-            yield false;
-          }
-        };
-    swerve.setIsBlue(isBlue);
+    swerve.setIsBlue(DriverStation.getAlliance().map(a -> a == Alliance.Blue).orElse(false));
   }
 
   public Command getAutonomousCommand() {
