@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -21,6 +22,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.Robot;
+
 import java.util.function.DoubleSupplier;
 
 @Logged
@@ -82,8 +85,8 @@ public class Swerve extends SubsystemBase {
     isBlue = color;
   }
 
-  public void zeroGyro(boolean isBlue) {
-    new Rotation2d();
+  public void zeroGyro() {
+    gyro.setYaw(0);
   }
 
   public SwerveModulePosition[] getModulePositions() {
@@ -102,9 +105,10 @@ public class Swerve extends SubsystemBase {
             x.in(MetersPerSecond) * SwerveConstants.MAX_LINEAR_VELOCITY.baseUnitMagnitude(),
             y.in(MetersPerSecond) * SwerveConstants.MAX_LINEAR_VELOCITY.baseUnitMagnitude(),
             omega.in(RadiansPerSecond) * SwerveConstants.MAX_ANGULAR_VELOCITY.baseUnitMagnitude(),
-            simHeading);
+            Robot.isSimulation() ? simPose.getRotation() : gyroHeading);
 
     swerveModuleStates = SwerveConstants.KINEMATICS.toSwerveModuleStates(chassisSpeeds);
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConstants.MAX_LINEAR_VELOCITY);
 
     modules.frontLeft.setState(swerveModuleStates[0]);
     modules.frontRight.setState(swerveModuleStates[1]);
