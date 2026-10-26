@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Robot;
-
 import java.util.function.DoubleSupplier;
 
 @Logged
@@ -108,7 +107,8 @@ public class Swerve extends SubsystemBase {
             Robot.isSimulation() ? simPose.getRotation() : gyroHeading);
 
     swerveModuleStates = SwerveConstants.KINEMATICS.toSwerveModuleStates(chassisSpeeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConstants.MAX_LINEAR_VELOCITY);
+    SwerveDriveKinematics.desaturateWheelSpeeds(
+        swerveModuleStates, SwerveConstants.MAX_LINEAR_VELOCITY);
 
     modules.frontLeft.setState(swerveModuleStates[0]);
     modules.frontRight.setState(swerveModuleStates[1]);
