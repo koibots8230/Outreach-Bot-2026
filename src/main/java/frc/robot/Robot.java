@@ -14,7 +14,7 @@ public class Robot extends TimedRobot {
   private final RobotContainer m_robotContainer;
 
   public Robot() {
-    m_robotContainer = new RobotContainer(Robot.isReal());
+    m_robotContainer = new RobotContainer();
 
     DataLogManager.start();
     Epilogue.bind(this);
@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
+    m_robotContainer.setIsBlue();
   }
 
   @Override
@@ -49,6 +50,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    m_robotContainer.setIsBlue();
   }
 
   @Override
