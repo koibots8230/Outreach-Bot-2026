@@ -13,16 +13,10 @@ public class ShootCommands {
     return Commands.sequence(shooter.setVelocityCommand(ShooterConstants.REVERSE_SPEED));
   }
 
-  public static Command shootHigh(Shooter shooter) {
+  public static Command shoot(Shooter shooter) {
     return Commands.sequence(
-        shooter.setVelocityCommand(ShooterConstants.HIGH_GOAL_SPEED),
+        shooter.setVelocityCommand(ShooterConstants.SHOOT_SPEED),
         Commands.waitSeconds(1.2)); // ,
-    // indexer.setSpeedCommand(IndexerConstants.SHOOT_SPEED).repeatedly());
-  }
-
-  public static Command shootLow(Shooter shooter) {
-    return Commands.sequence(
-        shooter.setVelocityCommand(ShooterConstants.LOW_GOAL_SPEED), Commands.waitSeconds(1)); // ,
     // indexer.setSpeedCommand(IndexerConstants.SHOOT_SPEED).repeatedly());
   }
 

@@ -4,6 +4,7 @@ import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ShootCommands;
@@ -24,13 +25,10 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    Trigger shootHigh = new Trigger(controller::getAButton); //trigger buttons not set in stone
-    shootHigh.onTrue(ShootCommands.shootHigh(shooter));
-    shootHigh.onFalse(ShootCommands.stop(shooter));
+    Trigger shoot = new Trigger(controller::getAButton); //trigger buttons not set in stone
+    shoot.onTrue(ShootCommands.shoot(shooter));
+    shoot.onFalse(ShootCommands.stop(shooter));
 
-    Trigger shootLow = new Trigger(controller::getYButton);
-    shootLow.onTrue(ShootCommands.shootLow(shooter));
-    shootLow.onFalse(ShootCommands.stop(shooter));
   }
 
   public Command getAutonomousCommand() {

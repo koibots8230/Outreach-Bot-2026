@@ -17,8 +17,7 @@ public final class Constants {
   }
 
   public class ShooterConstants {
-    public static final AngularVelocity HIGH_GOAL_SPEED = RPM.of(2100);
-    public static final AngularVelocity LOW_GOAL_SPEED = RPM.of(645);
+    public static final AngularVelocity SHOOT_SPEED = RPM.of(1500);
 
     public static final AngularVelocity REVERSE_SPEED = RPM.of(-500);
 
