@@ -5,19 +5,17 @@
 package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
-import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.Seconds;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Time;
+import edu.wpi.first.units.measure.Voltage;
 import frc.lib.util.FeedforwardGains;
 import frc.lib.util.PIDGains;
 
@@ -37,6 +35,8 @@ public final class Constants {
     public static final double DRIVETRAIN_WIDTH = Units.inchesToMeters(27);
 
     public static final Time CLOCK_SPEED = Seconds.of(0.02);
+
+    public static final Voltage NOMINAL_VOLTAGE = Volts.of(12);
   }
 
   public static class SwerveConstants {
@@ -111,5 +111,20 @@ public final class Constants {
     public static final Current CURRENT_LIMIT = Amps.of(60);
 
     public static final int MOTOR_ID = 22;
+  }
+
+  public static class TurretConstants {
+    public static final AngularVelocity MAX_VELOCITY = RadiansPerSecond.of(Math.PI * 20);
+    public static final AngularAcceleration MAX_ACCELERATION =
+        RadiansPerSecondPerSecond.of(Math.PI * 18);
+
+    public static final PIDGains PID_GAINS = new PIDGains.Builder().kp(0.0).build();
+    public static final FeedforwardGains FEEDFORWARD_GAINS =
+        new FeedforwardGains.Builder().kv(0.0).build();
+
+    public static final double CONVERSION_FACTOR = Math.PI * 2;
+    public static final Current CURRENT_LIMIT = Amps.of(60);
+
+    public static final int MOTOR_ID = 33;
   }
 }
