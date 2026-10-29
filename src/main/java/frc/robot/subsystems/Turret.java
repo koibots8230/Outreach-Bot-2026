@@ -8,10 +8,11 @@ import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
@@ -72,6 +73,8 @@ public class Turret extends SubsystemBase {
 
     config.closedLoop.pid(
         TurretConstants.PID_GAINS.kp, TurretConstants.PID_GAINS.ki, TurretConstants.PID_GAINS.kd);
+
+    config.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
 
     motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
