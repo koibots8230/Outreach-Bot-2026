@@ -21,14 +21,7 @@ import edu.wpi.first.units.measure.Time;
 import frc.lib.util.FeedforwardGains;
 import frc.lib.util.PIDGains;
 
-/**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
- * globally (i.e. public static). Do not put anything functional in this class.
- *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
- */
+
 public final class Constants {
   public static class RobotConstants {
     public static final int CONTROLLER_PORT = 0;
@@ -111,5 +104,19 @@ public final class Constants {
     public static final Current CURRENT_LIMIT = Amps.of(60);
 
     public static final int MOTOR_ID = 22;
+  }
+
+  public class ShooterConstants {
+    public static final AngularVelocity SHOOT_SPEED = RPM.of(1500);
+
+    public static final AngularVelocity REVERSE_SPEED = RPM.of(-500);
+
+    public static final PIDGains PID = new PIDGains.Builder().kp(0.0016).build();
+    public static final FeedforwardGains FEEDFORWARD =
+        new FeedforwardGains.Builder().kv(0.000185).build();
+
+    public static final Current CURRENT_LIMIT = Amps.of(80);
+
+    public static final int MOTOR_PORT = 31;
   }
 }
