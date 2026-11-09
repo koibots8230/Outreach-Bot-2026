@@ -47,9 +47,8 @@ public class Shooter extends SubsystemBase {
     motorController = motor.getClosedLoopController();
 
     voltage = Volts.of(0);
-    velocity = RPM.of(0);
+   setVelocity(RPM.of(0));
     current = Amps.of(0);
-    setpoint = RPM.of(0);
   }
 
   @Override
