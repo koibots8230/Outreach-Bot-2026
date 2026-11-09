@@ -69,6 +69,10 @@ public class Shooter extends SubsystemBase {
     setpoint = velocity;
   }
 
+  public boolean atSpeed() {
+    return velocity.in(RPM) > setpoint.in(RPM) - 20.0;
+  }
+
   public Command setVelocityCommand(AngularVelocity velocity) {
     return Commands.runOnce(() -> setVelocity(velocity), this);
   }
