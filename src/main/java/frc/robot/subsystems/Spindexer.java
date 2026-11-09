@@ -5,6 +5,8 @@ import static edu.wpi.first.units.Units.*;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -20,8 +22,9 @@ import frc.robot.Constants.SpindexerConstants;
 
 @Logged
 public class Spindexer extends SubsystemBase {
-  @NotLogged private final SparkMax motor;
-  @NotLogged private final SparkMaxConfig config;
+  private final SparkMax motor;
+  private final SparkMaxConfig config;
+  private final SparkClosedLoopController motorController;
 
   @NotLogged private final RelativeEncoder encoder;
 
@@ -40,6 +43,8 @@ public class Spindexer extends SubsystemBase {
     config.smartCurrentLimit((int) SpindexerConstants.CURRENT_LIMIT.in(Amps));
 
     motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    motorController = motor.getClosedLoopController();
 
     encoder = motor.getEncoder();
 
@@ -63,6 +68,7 @@ public class Spindexer extends SubsystemBase {
   }
 
   private void setVelocity(AngularVelocity velocity) {
+    motorController.setSetpoint(velocity.in(RPM), ControlType.kVelocity);
     setpoint = velocity;
   }
 
