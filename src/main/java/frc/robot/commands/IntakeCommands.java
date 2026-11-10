@@ -8,14 +8,17 @@ import frc.robot.subsystems.Spindexer;
 
 public class IntakeCommands {
   public static Command startIntake(Spindexer spindexer) {
+    // TODO: Add Intake
     return spindexer.setVelocityCommand(SpindexerConstants.INTAKE_VELOCITY);
   }
 
   public static Command reverseIntake(Spindexer spindexer) {
+    // TODO: Add Intake
     return spindexer.setVelocityCommand(SpindexerConstants.REVERSE_VELOCITY);
   }
 
   public static Command stopIntake(Spindexer spindexer) {
+    // TODO: Add Intake
     return spindexer.setVelocityCommand(RPM.of(0));
   }
 }
