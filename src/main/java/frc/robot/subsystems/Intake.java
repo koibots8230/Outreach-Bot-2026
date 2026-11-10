@@ -14,7 +14,7 @@ public class Intake extends SubsystemBase {
 
     private final SparkMax topMotor;
     private final SparkMax bottomMotor;
-    private final SparkMaxConfig motorConfig;
+    private final SparkMaxConfig config;
     double setpoint;
     double current;
     double voltage;
@@ -23,7 +23,7 @@ public class Intake extends SubsystemBase {
     public Intake() {
         topMotor = new SparkMax(11, null);
         bottomMotor = new SparkMax(12, null);
-        motorConfig = new SparkMaxConfig();
+        config = new SparkMaxConfig();
     }
     
 }
