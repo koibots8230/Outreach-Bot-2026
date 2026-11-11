@@ -8,19 +8,13 @@ import frc.robot.Constants.*;
 import frc.robot.subsystems.*;
 
 public class ShootingCommands {
-  public static Command reverseCommand(
-      Spindexer spindexer, TowerIndexer towerIndexer, Shooter shooter) {
-    return Commands.parallel(
-        shooter.setVelocityCommand(ShooterConstants.REVERSE_SPEED),
-        spindexer.setVelocityCommand(SpindexerConstants.REVERSE_VELOCITY),
-        towerIndexer.setVelocityCommand(TowerIndexerConstants.VELOCITY));
-  }
-
   public static Command shoot(Spindexer spindexer, TowerIndexer towerIndexer, Shooter shooter) {
-    return Commands.parallel(
-        shooter.setVelocityCommand(ShooterConstants.SHOOT_SPEED),
+    return Commands.sequence(
+      shooter.setVelocityCommand(ShooterConstants.SHOOT_SPEED),
+      Commands.waitUntil(shooter::atSpeed),
+      Commands.parallel(
         spindexer.setVelocityCommand(SpindexerConstants.SHOOTING_VELOCITY),
-        towerIndexer.setVelocityCommand(TowerIndexerConstants.VELOCITY));
+        towerIndexer.setVelocityCommand(TowerIndexerConstants.VELOCITY)));
   }
 
   public static Command stopShoot(Spindexer spindexer, TowerIndexer towerIndexer, Shooter shooter) {

@@ -47,9 +47,8 @@ public class Shooter extends SubsystemBase {
     motorController = motor.getClosedLoopController();
 
     voltage = Volts.of(0);
-    velocity = RPM.of(0);
+   setVelocity(RPM.of(0));
     current = Amps.of(0);
-    setpoint = RPM.of(0);
   }
 
   @Override
@@ -67,6 +66,10 @@ public class Shooter extends SubsystemBase {
   private void setVelocity(AngularVelocity velocity) {
     motorController.setSetpoint(velocity.in(RPM), ControlType.kVelocity);
     setpoint = velocity;
+  }
+
+  public boolean atSpeed() {
+    return velocity.in(RPM) > setpoint.in(RPM) - 20.0;
   }
 
   public Command setVelocityCommand(AngularVelocity velocity) {
