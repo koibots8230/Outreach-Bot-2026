@@ -25,6 +25,8 @@ public class Intake extends SubsystemBase {
     @NotLogged private final SparkMax bottomMotor;
     @NotLogged private final SparkMaxConfig topConfig;
     @NotLogged private final SparkMaxConfig bottomConfig;
+    @NotLogged private final SparkClosedLoopController topController;
+    @NotLogged private final SparkClosedLoopController bottomController;
     private AngularVelocity setpoint;
     private Current topCurrent, bottomCurrent;
     private Voltage topVoltage, bottomVoltage;
@@ -37,10 +39,12 @@ public class Intake extends SubsystemBase {
         topConfig = new SparkMaxConfig();
         topConfig.inverted(true);
         topConfig.smartCurrentLimit((int) IntakeConstants.CURRENT_LIMIT.in(Amps));
+        topController = topMotor.getClosedLoopController();
 
         bottomConfig = new SparkMaxConfig();
         bottomConfig.inverted(false);
         bottomConfig.smartCurrentLimit((int) IntakeConstants.CURRENT_LIMIT.in(Amps));
+        bottomController = bottomMotor.getClosedLoopController();
 
         topMotor.configure(topConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         bottomMotor.configure(bottomConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -67,6 +71,16 @@ public class Intake extends SubsystemBase {
         bottomCurrent = Amps.of(bottomMotor.getOutputCurrent());
         bottomVoltage = Volts.of(bottomMotor.getAppliedOutput() * bottomMotor.getBusVoltage());
         bottomVelocity = RPM.of(bottomMotor.getEncoder().getVelocity());
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        topVelocity = setpoint;
+        bottomVelocity = setpoint;
+    }
+
+    private void setVelocity(AngularVelocity velocity) {
+        top
     }
     
 }
