@@ -21,7 +21,6 @@ import edu.wpi.first.units.measure.Time;
 import frc.lib.util.FeedforwardGains;
 import frc.lib.util.PIDGains;
 
-
 public final class Constants {
   public static class RobotConstants {
     public static final int CONTROLLER_PORT = 0;
@@ -104,6 +103,15 @@ public final class Constants {
     public static final Current CURRENT_LIMIT = Amps.of(60);
 
     public static final int MOTOR_ID = 22;
+  }
+
+  public class IntakeConstants {
+    public static final AngularVelocity INTAKE_VELOCITY = RPM.of(500);
+    public static final AngularVelocity REVERSE_VELOCITY = RPM.of(-250);
+    public static final Current CURRENT_LIMIT = Amps.of(60);
+
+    public static final int TOP_MOTOR_ID = 11;
+    public static final int BOTTOM_MOTOR_ID = 12;
   }
 
   public class ShooterConstants {

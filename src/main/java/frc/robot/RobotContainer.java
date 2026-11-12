@@ -1,6 +1,5 @@
 package frc.robot;
 
-
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -8,7 +7,6 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.RobotConstants;
@@ -23,6 +21,7 @@ public class RobotContainer {
   private final Spindexer spindexer;
   private final TowerIndexer towerIndexer;
   private final Shooter shooter;
+  private final Intake intake;
 
   public RobotContainer() {
     xboxController = new XboxController(RobotConstants.CONTROLLER_PORT);
@@ -31,7 +30,8 @@ public class RobotContainer {
     towerIndexer = new TowerIndexer();
     shooter = new Shooter();
     swerve = new Swerve();
-    ;
+    intake = new Intake();
+
     configureBindings();
     setIsBlue();
     defaultCommands();
@@ -39,12 +39,12 @@ public class RobotContainer {
 
   private void configureBindings() {
     Trigger intakeButton = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0.15);
-    intakeButton.onTrue(IntakeCommands.startIntake(spindexer));
-    intakeButton.onFalse(IntakeCommands.stopIntake(spindexer));
+    intakeButton.onTrue(IntakeCommands.startIntake(spindexer, intake));
+    intakeButton.onFalse(IntakeCommands.stopIntake(spindexer, intake));
 
     Trigger intakeReverse = new Trigger(() -> xboxController.getRightTriggerAxis() > 0.15);
-    intakeReverse.onTrue(IntakeCommands.reverseIntake(spindexer));
-    intakeReverse.onFalse(IntakeCommands.stopIntake(spindexer));
+    intakeReverse.onTrue(IntakeCommands.reverseIntake(spindexer, intake));
+    intakeReverse.onFalse(IntakeCommands.stopIntake(spindexer, intake));
 
     Trigger shootTrigger = new Trigger(() -> operator.getRawButton(2));
     shootTrigger.onTrue(ShootingCommands.shoot(spindexer, towerIndexer, shooter));
