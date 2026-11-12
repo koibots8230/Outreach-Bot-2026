@@ -38,11 +38,11 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    Trigger intakeButton = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0.15);
+    Trigger intakeButton = new Trigger(() -> xboxController.getAButton());
     intakeButton.onTrue(IntakeCommands.startIntake(spindexer, intake));
     intakeButton.onFalse(IntakeCommands.stopIntake(spindexer, intake));
 
-    Trigger intakeReverse = new Trigger(() -> xboxController.getRightTriggerAxis() > 0.15);
+    Trigger intakeReverse = new Trigger(() -> xboxController.getBButton());
     intakeReverse.onTrue(IntakeCommands.reverseIntake(spindexer, intake));
     intakeReverse.onFalse(IntakeCommands.stopIntake(spindexer, intake));
 
