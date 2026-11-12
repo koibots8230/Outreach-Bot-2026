@@ -107,8 +107,10 @@ public final class Constants {
   }
 
   public class IntakeConstants {
+    public static final AngularVelocity INTAKE_VELOCITY = RPM.of(500);
+    public static final AngularVelocity REVERSE_VELOCITY = RPM.of(-250);
     public static final Current CURRENT_LIMIT = Amps.of(60);
-    
+
     public static final int TOP_MOTOR_ID = 11;
     public static final int BOTTOM_MOTOR_ID = 12;
   }
