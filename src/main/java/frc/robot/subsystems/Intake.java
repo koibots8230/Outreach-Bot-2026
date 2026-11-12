@@ -85,5 +85,9 @@ public class Intake extends SubsystemBase {
         bottomController.setSetpoint(velocity.in(RPM), ControlType.kVelocity);
         setpoint = velocity;
     }
+
+    public Command setVelocityCommand(AngularVelocity velocity) {
+        return Commands.runOnce(() -> setVelocity(velocity), this);
+    }
     
 }
