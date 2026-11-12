@@ -6,6 +6,7 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.epilogue.Logged;
@@ -80,7 +81,9 @@ public class Intake extends SubsystemBase {
     }
 
     private void setVelocity(AngularVelocity velocity) {
-        top
+        topController.setSetpoint(velocity.in(RPM), ControlType.kVelocity);
+        bottomController.setSetpoint(velocity.in(RPM), ControlType.kVelocity);
+        setpoint = velocity;
     }
     
 }
