@@ -24,7 +24,6 @@ public class IntakeCommands {
 
   public static Command stopIntake(Spindexer spindexer, Intake intake) {
     return Commands.sequence(
-      spindexer.setVelocityCommand(RPM.of(0)),
-      intake.setVelocityCommand(RPM.of(0)));
+        spindexer.setVelocityCommand(RPM.of(0)), intake.setVelocityCommand(RPM.of(0)));
   }
 }

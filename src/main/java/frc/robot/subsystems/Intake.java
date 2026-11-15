@@ -47,8 +47,7 @@ public class Intake extends SubsystemBase {
     bottomConfig.smartCurrentLimit((int) IntakeConstants.CURRENT_LIMIT.in(Amps));
     bottomController = bottomMotor.getClosedLoopController();
 
-    topMotor.configure(
-        topConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    topMotor.configure(topConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     bottomMotor.configure(
         bottomConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
