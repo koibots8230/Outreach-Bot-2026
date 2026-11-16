@@ -93,9 +93,9 @@ public class Turret extends SubsystemBase {
                 TurretConstants.MAX_VELOCITY.in(RadiansPerSecond),
                 TurretConstants.MAX_ACCELERATION.in(RadiansPerSecondPerSecond)));
 
-    goalState = new State(0, 0);
+    goalState = new State(encoder.getPosition(), 0);
 
-    motorSetpoint = new State(0, 0);
+    motorSetpoint = new State(encoder.getPosition(), 0);
 
     setpoint = Radians.of(0);
     position = Radians.of(0);
