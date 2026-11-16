@@ -19,6 +19,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
@@ -130,8 +131,13 @@ public class Turret extends SubsystemBase {
   }
 
   private void setPosition(Angle angle) {
-    setpoint = angle;
-    goalState = new State(angle.in(Radians), 0);
+    double clampedRadians =
+      MathUtil.clamp(
+        angle.in(Radians),
+        TurretConstants.MAX_ANGLE.in(Radians),
+        TurretConstants.MAX_ANGLE.in(Radians));
+    setpoint = Radians.of(clampedRadians);
+    goalState = new State(clampedRadians, 0);
   }
 
   public Command setPositionCommand(Angle angle) {
