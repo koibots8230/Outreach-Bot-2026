@@ -134,7 +134,7 @@ public class Turret extends SubsystemBase {
     double clampedRadians =
         MathUtil.clamp(
             angle.in(Radians),
-            TurretConstants.MAX_ANGLE.in(Radians),
+            -TurretConstants.MAX_ANGLE.in(Radians),
             TurretConstants.MAX_ANGLE.in(Radians));
     setpoint = Radians.of(clampedRadians);
     goalState = new State(clampedRadians, 0);
