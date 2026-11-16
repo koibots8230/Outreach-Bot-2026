@@ -118,4 +118,14 @@ public final class Constants {
 
     public static final int MOTOR_PORT = 31;
   }
+
+  public class intakeSlideConstants {
+    public static final int MOTOR_ID = 41;
+
+    public static final PIDGains PID_GAINS = 
+      new PIDGains.Builder().kp(0).ki(0).kd(0).build();
+    public static final FeedforwardGains FEEDFORWARD_GAINS =
+        new FeedforwardGains.Builder().ks(0).kv(0).build();
+
+  }
 }
