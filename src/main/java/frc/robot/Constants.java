@@ -118,16 +118,16 @@ public final class Constants {
     public static final AngularVelocity MAX_VELOCITY = RadiansPerSecond.of(Math.PI * 20);
     public static final AngularAcceleration MAX_ACCELERATION =
         RadiansPerSecondPerSecond.of(Math.PI * 18);
-    
-    public static final Angle MAX_ANGLE = Degrees.of(45); //safe placeholder
-    //needs to be actually measured on the robot w/ limit switch
+
+    public static final Angle MAX_ANGLE = Degrees.of(45); // safe placeholder
+    // needs to be actually measured on the robot w/ limit switch
 
     public static final PIDGains PID_GAINS = new PIDGains.Builder().kp(0.0).build();
     public static final FeedforwardGains FEEDFORWARD_GAINS =
         new FeedforwardGains.Builder().kv(0.0).build();
 
-        //1 encoder rot = 12/95 turret rot, conversion factor converts encoder rot -> turret rad
-        // need to verify on robot probably
+    // 1 encoder rot = 12/95 turret rot, conversion factor converts encoder rot -> turret rad
+    // need to verify on robot probably
     public static final double CONVERSION_FACTOR = 2 * Math.PI / (95.0 / 12.0);
     public static final Current CURRENT_LIMIT = Amps.of(60);
 
