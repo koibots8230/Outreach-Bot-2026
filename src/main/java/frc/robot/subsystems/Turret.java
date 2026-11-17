@@ -28,11 +28,13 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.TurretConstants;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 @Logged
 public class Turret extends SubsystemBase {
@@ -49,6 +51,9 @@ public class Turret extends SubsystemBase {
   @NotLogged private final TrapezoidProfile profile;
   @NotLogged private TrapezoidProfile.State goalState;
   @NotLogged private TrapezoidProfile.State motorSetpoint;
+
+  @NotLogged private final DigitalInput leftLimit;
+  @NotLogged private final DigitalInput rightLimit;
 
   private Angle setpoint;
   private Angle position;
