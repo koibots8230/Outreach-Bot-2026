@@ -62,6 +62,7 @@ public class Turret extends SubsystemBase {
 
   private Current current;
   private Voltage appliedVoltage;
+  private boolean isZeroed;
 
   public Turret() {
     motor = new SparkMax(TurretConstants.MOTOR_ID, MotorType.kBrushless);
@@ -73,14 +74,14 @@ public class Turret extends SubsystemBase {
 
     config.voltageCompensation(RobotConstants.NOMINAL_VOLTAGE.in(Volts));
 
-    config.absoluteEncoder.positionConversionFactor(TurretConstants.CONVERSION_FACTOR);
+    config.encoder.positionConversionFactor(TurretConstants.CONVERSION_FACTOR);
 
-    config.absoluteEncoder.velocityConversionFactor(TurretConstants.CONVERSION_FACTOR / 60.0);
+    config.encoder.velocityConversionFactor(TurretConstants.CONVERSION_FACTOR / 60.0);
 
     config.closedLoop.pid(
         TurretConstants.PID_GAINS.kp, TurretConstants.PID_GAINS.ki, TurretConstants.PID_GAINS.kd);
 
-    config.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
+    config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
 
     motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -98,9 +99,9 @@ public class Turret extends SubsystemBase {
                 TurretConstants.MAX_VELOCITY.in(RadiansPerSecond),
                 TurretConstants.MAX_ACCELERATION.in(RadiansPerSecondPerSecond)));
 
-    goalState = new State(encoder.getPosition(), 0);
+    goalState = new State(motor.getEncoder().getPosition(), 0);
 
-    motorSetpoint = new State(encoder.getPosition(), 0);
+    motorSetpoint = new State(motor.getEncoder().getPosition(), 0);
 
     setpoint = Radians.of(0);
     position = Radians.of(0);
@@ -112,10 +113,14 @@ public class Turret extends SubsystemBase {
 
     leftLimit = new DigitalInput(TurretConstants.LEFT_LIMIT_PORT);
     rightLimit = new DigitalInput(TurretConstants.RIGHT_LIMIT_PORT);
+    isZeroed = false;
   }
 
   @Override
   public void periodic() {
+    if (!isZeroed) {
+      return;
+    }
     motorSetpoint =
         profile.calculate(RobotConstants.CLOCK_SPEED.in(Seconds), motorSetpoint, goalState);
 
@@ -151,4 +156,21 @@ public class Turret extends SubsystemBase {
   public Command setPositionCommand(Angle angle) {
     return Commands.runOnce(() -> this.setPosition(angle), this);
   }
+
+  public boolean atLeftLimit() {
+    return !leftLimit.get(); 
+  }
+
+  public boolean isZeroed() {
+    return isZeroed;
+  }
+  private void zeroEncoder() {
+    motor.getEncoder().setPosition(0);
+    goalState = new State(0, 0);
+    motorSetpoint = goalState;
+    setpoint = Radians.of(0);
+    isZeroed = true;
+  }
+
+
 }
