@@ -109,6 +109,9 @@ public class Turret extends SubsystemBase {
 
     current = Amps.of(0);
     appliedVoltage = Volts.of(0);
+
+    leftLimit = new DigitalInput(TurretConstants.LEFT_LIMIT_PORT);
+    rightLimit = new DigitalInput(TurretConstants.RIGHT_LIMIT_PORT);
   }
 
   @Override

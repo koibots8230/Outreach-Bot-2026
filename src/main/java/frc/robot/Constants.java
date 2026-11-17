@@ -138,5 +138,7 @@ public final class Constants {
     public static final Current CURRENT_LIMIT = Amps.of(60);
 
     public static final int MOTOR_ID = 33;
+    public static final int LEFT_LIMIT_PORT = 8; //idk what this number actually is
+    public static final int RIGHT_LIMIT_PORT = 9; //or this
   }
 }
