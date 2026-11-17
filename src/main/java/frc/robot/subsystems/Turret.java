@@ -172,5 +172,13 @@ public class Turret extends SubsystemBase {
     isZeroed = true;
   }
 
+  public Command zeroTurretCommand() {
+    return Commands.sequence(
+        Commands.run(() -> motor.setVoltage(1.5), this)
+            .until(this::atLeftLimit)
+            .withTimeout(3.0),
+        Commands.runOnce(() -> zeroEncoder(), this),
+        Commands.runOnce(() -> motor.setVoltage(0), this));
+  }
 
 }
