@@ -21,6 +21,7 @@ public class RobotContainer {
   private final Spindexer spindexer;
   private final TowerIndexer towerIndexer;
   private final Shooter shooter;
+  private final Turret turret;
 
   public RobotContainer() {
     xboxController = new XboxController(RobotConstants.CONTROLLER_PORT);
@@ -29,6 +30,7 @@ public class RobotContainer {
     towerIndexer = new TowerIndexer();
     shooter = new Shooter();
     swerve = new Swerve();
+    turret = new Turret();;
     ;
     configureBindings();
     setIsBlue();
@@ -47,6 +49,9 @@ public class RobotContainer {
     Trigger shootTrigger = new Trigger(() -> operator.getRawButton(2));
     shootTrigger.onTrue(ShootingCommands.shoot(spindexer, towerIndexer, shooter));
     shootTrigger.onFalse(ShootingCommands.stopShoot(spindexer, towerIndexer, shooter));
+
+    Trigger zeroTurret = new Trigger(() -> xboxController.getBButton());
+    zeroTurret.onTrue(turret.zeroTurretCommand());
   }
 
   private void defaultCommands() {
