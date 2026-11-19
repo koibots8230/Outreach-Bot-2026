@@ -132,13 +132,15 @@ public final class Constants {
     public static final FeedforwardGains FEEDFORWARD_GAINS =
         new FeedforwardGains.Builder().kv(0.0).build();
 
-    // 1 encoder rot = 12/95 turret rot, conversion factor converts encoder rot -> turret rad
+    // 1 encoder rot = 95/12 turret rot, conversion factor converts encoder rot -> turret rad
     // need to verify on robot probably
-    public static final double CONVERSION_FACTOR = 2 * Math.PI / (95.0 / 12.0);
+    // public static final double CONVERSION_FACTOR = 2 * Math.PI / (95.0 / 12.0);
+    public static final double MOTOR_TO_TURRET_RATIO = (38/95);
+    public static final double CONVERSION_FACTOR = 2 * Math.PI / (MOTOR_TO_TURRET_RATIO);
     public static final Current CURRENT_LIMIT = Amps.of(60);
 
     public static final int MOTOR_ID = 33;
-    public static final int LEFT_LIMIT_PORT = 8; //idk what this number actually is
-    public static final int RIGHT_LIMIT_PORT = 9; //or this
+    public static final int LEFT_LIMIT_PORT = 8; // idk what this number actually is
+    public static final int RIGHT_LIMIT_PORT = 9; // or this
   }
 }

@@ -34,7 +34,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.TurretConstants;
-import edu.wpi.first.wpilibj.DigitalInput;
 
 @Logged
 public class Turret extends SubsystemBase {
@@ -130,8 +129,8 @@ public class Turret extends SubsystemBase {
         ClosedLoopSlot.kSlot0,
         feedforward.calculate(motorSetpoint.velocity));
 
-    position = Radians.of(encoder.getPosition());
-    velocity = RadiansPerSecond.of(encoder.getVelocity());
+    position = Radians.of(motor.getEncoder().getPosition());
+    velocity = RadiansPerSecond.of(motor.getEncoder().getVelocity());
 
     current = Amps.of(motor.getOutputCurrent());
     appliedVoltage = Volts.of(motor.getAppliedOutput() * motor.getBusVoltage());
@@ -158,12 +157,13 @@ public class Turret extends SubsystemBase {
   }
 
   public boolean atLeftLimit() {
-    return !leftLimit.get(); 
+    return !leftLimit.get();
   }
 
   public boolean isZeroed() {
     return isZeroed;
   }
+
   private void zeroEncoder() {
     motor.getEncoder().setPosition(0);
     goalState = new State(0, 0);
@@ -174,11 +174,8 @@ public class Turret extends SubsystemBase {
 
   public Command zeroTurretCommand() {
     return Commands.sequence(
-        Commands.run(() -> motor.setVoltage(1.5), this)
-            .until(this::atLeftLimit)
-            .withTimeout(3.0),
+        Commands.run(() -> motor.setVoltage(1.5), this).until(this::atLeftLimit).withTimeout(3.0),
         Commands.runOnce(() -> zeroEncoder(), this),
         Commands.runOnce(() -> motor.setVoltage(0), this));
   }
-
 }

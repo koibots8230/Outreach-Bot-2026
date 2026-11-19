@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.RobotConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import static edu.wpi.first.units.Units.Radians;
 
 @Logged
 public class RobotContainer {
@@ -30,7 +31,8 @@ public class RobotContainer {
     towerIndexer = new TowerIndexer();
     shooter = new Shooter();
     swerve = new Swerve();
-    turret = new Turret();;
+    turret = new Turret();
+    ;
     ;
     configureBindings();
     setIsBlue();
@@ -52,6 +54,9 @@ public class RobotContainer {
 
     Trigger zeroTurret = new Trigger(() -> xboxController.getBButton());
     zeroTurret.onTrue(turret.zeroTurretCommand());
+
+    Trigger testTurret = new Trigger(() -> xboxController.getAButton());
+    testTurret.onTrue(turret.setPositionCommand(Radians.of(.5)));
   }
 
   private void defaultCommands() {
