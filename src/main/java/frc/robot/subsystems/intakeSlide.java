@@ -3,8 +3,8 @@ package frc.robot.subsystems;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkMax;
 
@@ -17,7 +17,6 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -55,32 +54,46 @@ public class intakeSlide extends SubsystemBase {
             .forwardLimitSwitchType(Type.kNormallyOpen);
 
         slideMotorConfig.closedLoop
-            .kP(intakeSlideConstants.PID_GAINS.kP);
-            .kI(intakeSlideConstants.PID_GAINS.kI);
-            .kD(intakeSlideConstants.PID_GAINS.kD);
+            .p(intakeSlideConstants.PID_GAINS.kp)
+            .i(intakeSlideConstants.PID_GAINS.ki)
+            .d(intakeSlideConstants.PID_GAINS.kd);
 
         slideMotor.configure(slideMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        
 
-        tProfile = new TrapezoidProfile(intakeSlideConstants.TRAPEZOID_PROFILE_CONSTANTS);
-        feedforward = new ElevatorFeedforward(intakeSlideConstants.FEEDFORWARD_GAINS);
+        feedforward = new ElevatorFeedforward(
+            intakeSlideConstants.FEEDFORWARD_GAINS.ks,
+            intakeSlideConstants.FEEDFORWARD_GAINS.kv,
+            intakeSlideConstants.FEEDFORWARD_GAINS.ka
+        );
+
+        tProfile = new TrapezoidProfile(
+            new TrapezoidProfile.Constraints(
+                intakeSlideConstants.MAX_VELOCITY,
+                intakeSlideConstants.MAX_ACCELERATION
+            )
+        );
 
     }
 
-    private void setIntakePosition() {
-        // Code to set the intake position
+    private void setIntakePosition(double targetPosition) {
+        closedLoopController.setSetpoint(targetPosition, ControlType.kPosition);
+        
     }
 
     public Command extendIntake() {
-        return Commands.runOnce(() -> {
-            // Code to extend the intake
-        });
+        return Commands.runOnce(() -> setIntakePosition(intakeSlideConstants.EXTENDED_POSITION), this);
     }
 
     public Command retractIntake() {
-        return Commands.runOnce(() -> {
-            // Code to retract the intake
-        });
+        return Commands.runOnce(() -> setIntakePosition(intakeSlideConstants.RETRACTED_POSITION), this);
     }
-    
+
+    public Command setZero() {
+        return Commands.runOnce(() -> slideEncoder.setPosition(0.0), this);
+    }
+
+    public Command stopSlide() {
+        return Commands.runOnce(slideMotor::stopMotor, this);
+    }
+
 }

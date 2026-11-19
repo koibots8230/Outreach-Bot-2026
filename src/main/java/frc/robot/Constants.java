@@ -127,5 +127,12 @@ public final class Constants {
     public static final FeedforwardGains FEEDFORWARD_GAINS =
         new FeedforwardGains.Builder().ks(0).kv(0).build();
 
+    public static final double EXTENDED_POSITION = 10.0;
+    public static final double RETRACTED_POSITION = 0.0;
+    public static final double TOLERANCE = 0.5;
+
+    public static final double MAX_VELOCITY = 1.0;
+    public static final double MAX_ACCELERATION = 1.0;
+
   }
 }
