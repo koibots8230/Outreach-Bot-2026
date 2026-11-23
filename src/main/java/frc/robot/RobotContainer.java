@@ -1,5 +1,7 @@
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Radians;
+
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -22,6 +24,7 @@ public class RobotContainer {
   private final TowerIndexer towerIndexer;
   private final Shooter shooter;
   private final Intake intake;
+  private final Turret turret;
 
   public RobotContainer() {
     xboxController = new XboxController(RobotConstants.CONTROLLER_PORT);
@@ -30,6 +33,7 @@ public class RobotContainer {
     towerIndexer = new TowerIndexer();
     shooter = new Shooter();
     swerve = new Swerve();
+    turret = new Turret();
     intake = new Intake();
 
     configureBindings();
@@ -49,6 +53,12 @@ public class RobotContainer {
     Trigger shootTrigger = new Trigger(() -> operator.getRawButton(2));
     shootTrigger.onTrue(ShootingCommands.shoot(spindexer, towerIndexer, shooter));
     shootTrigger.onFalse(ShootingCommands.stopShoot(spindexer, towerIndexer, shooter));
+
+    Trigger zeroTurret = new Trigger(() -> xboxController.getBButton());
+    zeroTurret.onTrue(turret.zeroTurretCommand());
+
+    Trigger testTurret = new Trigger(() -> xboxController.getAButton());
+    testTurret.onTrue(turret.setPositionCommand(Radians.of(.5)));
   }
 
   private void defaultCommands() {
