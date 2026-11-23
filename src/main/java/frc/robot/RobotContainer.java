@@ -1,5 +1,7 @@
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Radians;
+
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -12,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.RobotConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import static edu.wpi.first.units.Units.Radians;
 
 @Logged
 public class RobotContainer {
@@ -22,6 +23,7 @@ public class RobotContainer {
   private final Spindexer spindexer;
   private final TowerIndexer towerIndexer;
   private final Shooter shooter;
+  private final Intake intake;
   private final Turret turret;
 
   public RobotContainer() {
@@ -32,8 +34,8 @@ public class RobotContainer {
     shooter = new Shooter();
     swerve = new Swerve();
     turret = new Turret();
-    ;
-    ;
+    intake = new Intake();
+
     configureBindings();
     setIsBlue();
     defaultCommands();
@@ -41,12 +43,12 @@ public class RobotContainer {
 
   private void configureBindings() {
     Trigger intakeButton = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0.15);
-    intakeButton.onTrue(IntakeCommands.startIntake(spindexer));
-    intakeButton.onFalse(IntakeCommands.stopIntake(spindexer));
+    intakeButton.onTrue(IntakeCommands.startIntake(spindexer, intake));
+    intakeButton.onFalse(IntakeCommands.stopIntake(spindexer, intake));
 
     Trigger intakeReverse = new Trigger(() -> xboxController.getRightTriggerAxis() > 0.15);
-    intakeReverse.onTrue(IntakeCommands.reverseIntake(spindexer));
-    intakeReverse.onFalse(IntakeCommands.stopIntake(spindexer));
+    intakeReverse.onTrue(IntakeCommands.reverseIntake(spindexer, intake));
+    intakeReverse.onFalse(IntakeCommands.stopIntake(spindexer, intake));
 
     Trigger shootTrigger = new Trigger(() -> operator.getRawButton(2));
     shootTrigger.onTrue(ShootingCommands.shoot(spindexer, towerIndexer, shooter));

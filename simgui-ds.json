@@ -4,6 +4,14 @@
       "visible": true
     }
   },
+<<<<<<< HEAD
+=======
+  "Keyboard 2 Settings": {
+    "window": {
+      "visible": true
+    }
+  },
+>>>>>>> origin/Dev
   "keyboardJoysticks": [
     {
       "axisConfig": [
@@ -97,6 +105,12 @@
   "robotJoysticks": [
     {
       "guid": "Keyboard0"
+    },
+    {
+      "guid": "Keyboard1"
+    },
+    {
+      "guid": "Keyboard2"
     }
   ]
 }

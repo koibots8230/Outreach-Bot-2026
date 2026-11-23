@@ -76,18 +76,18 @@ public final class Constants {
     };
 
     public static final int FRONT_LEFT_DRIVE_ID = 1;
-    public static final int FRONT_LEFT_TURN_ID = 2;
+    public static final int FRONT_LEFT_TURN_ID = 10;
 
-    public static final int FRONT_RIGHT_DRIVE_ID = 3;
-    public static final int FRONT_RIGHT_TURN_ID = 4;
+    public static final int FRONT_RIGHT_DRIVE_ID = 4;
+    public static final int FRONT_RIGHT_TURN_ID = 40;
 
-    public static final int BACK_LEFT_DRIVE_ID = 5;
-    public static final int BACK_LEFT_TURN_ID = 6;
+    public static final int BACK_LEFT_DRIVE_ID = 2;
+    public static final int BACK_LEFT_TURN_ID = 20;
 
-    public static final int BACK_RIGHT_DRIVE_ID = 7;
-    public static final int BACK_RIGHT_TURN_ID = 8;
+    public static final int BACK_RIGHT_DRIVE_ID = 3;
+    public static final int BACK_RIGHT_TURN_ID = 30;
 
-    public static final int GYRO_ID = 9;
+    public static final int GYRO_ID = 14;
   }
 
   public static class SpindexerConstants {
@@ -96,14 +96,23 @@ public final class Constants {
     public static final AngularVelocity REVERSE_VELOCITY = RPM.of(-120);
     public static final Current CURRENT_LIMIT = Amps.of(60);
 
-    public static final int MOTOR_ID = 21;
+    public static final int MOTOR_ID = 5;
   }
 
   public static class TowerIndexerConstants {
     public static final AngularVelocity VELOCITY = RPM.of(240);
     public static final Current CURRENT_LIMIT = Amps.of(60);
 
-    public static final int MOTOR_ID = 22;
+    public static final int MOTOR_ID = 9;
+  }
+
+  public class IntakeConstants {
+    public static final AngularVelocity INTAKE_VELOCITY = RPM.of(500);
+    public static final AngularVelocity REVERSE_VELOCITY = RPM.of(-250);
+    public static final Current CURRENT_LIMIT = Amps.of(60);
+
+    public static final int TOP_MOTOR_ID = 8;
+    public static final int BOTTOM_MOTOR_ID = 12;
   }
 
   public class ShooterConstants {
@@ -135,11 +144,11 @@ public final class Constants {
     // 1 encoder rot = 95/12 turret rot, conversion factor converts encoder rot -> turret rad
     // need to verify on robot probably
     // public static final double CONVERSION_FACTOR = 2 * Math.PI / (95.0 / 12.0);
-    public static final double MOTOR_TO_TURRET_RATIO = (38/95);
+    public static final double MOTOR_TO_TURRET_RATIO = (38 / 95);
     public static final double CONVERSION_FACTOR = 2 * Math.PI / (MOTOR_TO_TURRET_RATIO);
     public static final Current CURRENT_LIMIT = Amps.of(60);
 
-    public static final int MOTOR_ID = 33;
+    public static final int MOTOR_ID = 11;
     public static final int LEFT_LIMIT_PORT = 8; // idk what this number actually is
     public static final int RIGHT_LIMIT_PORT = 9; // or this
   }
